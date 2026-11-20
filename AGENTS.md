@@ -2,9 +2,9 @@
 
 ## Start here
 
-Read `agentdocs/README.md` and the current frontend/API pivot in `agentdocs/09-frontend-api.md`, then the requirements, architecture, security, API, runtime, and implementation documents linked there before implementing. This repository contains the Python API/UI foundation, PostgreSQL Compose configuration, tests, and an in-progress NemoClaw runtime integration. The owner has authorized implementation and local runtime validation. Keep application behavior and runtime claims aligned with verified evidence.
+Read `docs/agentdocs/README.md` and the current frontend/API pivot in `docs/agentdocs/09-frontend-api.md`, then the requirements, architecture, security, API, runtime, and implementation documents linked there before implementing. This repository contains the Python API/UI foundation, PostgreSQL Compose configuration, tests, and an in-progress NemoClaw runtime integration. The owner has authorized implementation and local runtime validation. Keep application behavior and runtime claims aligned with verified evidence.
 
-`AGENTS.md` and `agentdocs/` are deliberately ignored by Git at the owner's request. Keep them local; do not force-add them. Update these documents when later authorized implementation changes a decision. A new clone will not receive them.
+`AGENTS.md` and `docs/agentdocs/` are tracked in Git. Update these documents when later authorized implementation changes a decision.
 
 ## Product scope
 
@@ -12,7 +12,7 @@ Build a small prototype: two demo identities (`user1`, `user2`), cookie JWT logi
 
 ## Current frontend pivot (29 October 2026)
 
-The owner requested a separate frontend over selective authenticated OpenClaw APIs and directed scope to FEATURE_RESEARCH.md section 4. Curated chat/session, native task, and native review APIs are authorized. The owner subsequently requested the prototype frontend: **Morrow**. Visit Morrow opens the authenticated `/workspace` shell and uses `/api/assistant/*`. Hide backend product names from all customer-facing labels, titles, assets, and request paths. The old native UI is developer compatibility access only. Calendar/connection/browser/commerce adapters need their documented feasibility and permission boundaries; do not claim them from chat alone. LM Studio inference testing is no longer required. Use the capabilities endpoint to distinguish implemented API adapters from unresolved external features.
+The owner requested a separate frontend over selective authenticated OpenClaw APIs and directed scope to docs/FEATURE_RESEARCH.md section 4. Curated chat/session, native task, and native review APIs are authorized. The owner subsequently requested the prototype frontend: **Morrow**. Visit Morrow opens the authenticated `/workspace` shell and uses `/api/assistant/*`. Hide backend product names from all customer-facing labels, titles, assets, and request paths. The old native UI is developer compatibility access only. Calendar/connection/browser/commerce adapters need their documented feasibility and permission boundaries; do not claim them from chat alone. LM Studio inference testing is no longer required. Use the capabilities endpoint to distinguish implemented API adapters from unresolved external features.
 
 Both native workloads were recovered on 30 October through owner-authorized runtime reset, full native snapshot restoration, and reuse of their original UUIDs and named data volumes. Native container IDs changed and were explicitly reconciled after health/mount checks. A hash-pinned rootfs startup patch prevents token/trusted-proxy conflicts and is reapplied on provisioning; the parent image digest is recorded separately. The API speaks gateway protocol 4 and sends the actual control frontend Origin. Chat and review signing keys are separate per instance to avoid silently expanding an existing device grant. Never edit native phase metadata to fake readiness. See 08-runtime-findings.md for current evidence and remaining limitations.
 
@@ -24,7 +24,7 @@ The custom Morrow UI runs at the control origin and stores no private browser da
 
 ## Automations pivot (30 October 2026)
 
-The owner requested replacing the Tasks page with native-style Automations. Read `agentdocs/11-automations.md`. Curated schedule/history and typed create/update/run/remove APIs are authorized; existing task APIs remain. Native cron writes use a separate explicitly paired, host-only admin identity. Do not broaden native automatic browser pairing or expose general admin RPC. New schedules run private, tool-free agent turns with no external delivery; external calendar/commerce/browser automation remains gated. Protect managed monitor definitions, require loaded revisions and idempotency keys, and preserve all schedules/history and data volumes.
+The owner requested replacing the Tasks page with native-style Automations. Read `docs/agentdocs/11-automations.md`. Curated schedule/history and typed create/update/run/remove APIs are authorized; existing task APIs remain. Native cron writes use a separate explicitly paired, host-only admin identity. Do not broaden native automatic browser pairing or expose general admin RPC. New schedules run private, tool-free agent turns with no external delivery; external calendar/commerce/browser automation remains gated. Protect managed monitor definitions, require loaded revisions and idempotency keys, and preserve all schedules/history and data volumes.
 
 ## Invariants
 
@@ -41,7 +41,7 @@ The owner requested replacing the Tasks page with native-style Automations. Read
 
 ## Runtime truth
 
-NemoClaw is an OpenShell-managed stack. Installing its CLI into a plain OpenClaw container does not establish its sandbox controls. First complete the runtime feasibility spike in `agentdocs/05-runtime-and-data.md`. Verify native container identity mapping, explicit named-volume attachment, durable native state, private ingress, network separation, and trusted-proxy/device pairing with pinned versions. If upstream cannot satisfy a requirement, record the blocker and present the concrete tradeoff; do not silently weaken isolation or substitute bare OpenClaw.
+NemoClaw is an OpenShell-managed stack. Installing its CLI into a plain OpenClaw container does not establish its sandbox controls. First complete the runtime feasibility spike in `docs/agentdocs/05-runtime-and-data.md`. Verify native container identity mapping, explicit named-volume attachment, durable native state, private ingress, network separation, and trusted-proxy/device pairing with pinned versions. If upstream cannot satisfy a requirement, record the blocker and present the concrete tradeoff; do not silently weaken isolation or substitute bare OpenClaw.
 
 ## Implementation conventions for later work
 
@@ -52,12 +52,12 @@ NemoClaw is an OpenShell-managed stack. Installing its CLI into a plain OpenClaw
 - Do not block the ASGI event loop with Docker/CLI work. Persist jobs before acknowledging creation. Start with a single application worker and durable reconciliation.
 - Keep all resource configuration server-owned: images, commands, mounts, network destinations, and upstream ports. Clients cannot supply them.
 - Pin runtime images by digest and record the NemoClaw/OpenShell/OpenClaw compatibility tuple. Do not download installers during a user request.
-- Run meaningful authorization, concurrency, restart, persistence, and HTTP/WebSocket integration checks from `agentdocs/06-implementation-plan.md`. Keep lightweight unit tests separate from opt-in real-runtime tests.
+- Run meaningful authorization, concurrency, restart, persistence, and HTTP/WebSocket integration checks from `docs/agentdocs/06-implementation-plan.md`. Keep lightweight unit tests separate from opt-in real-runtime tests.
 - Report what was verified and what remains a proposal. Never describe planned isolation or upgrades as tested.
 
 ## Chat activity
 
-Read agentdocs/12-chat-activity.md for native subscription delivery, activity/question identity separation, safe projections, sequence/reconnect behavior and validation limits. Preserve exact approval integrity: blocked presentations cannot issue or consume review tokens.
+Read docs/agentdocs/12-chat-activity.md for native subscription delivery, activity/question identity separation, safe projections, sequence/reconnect behavior and validation limits. Preserve exact approval integrity: blocked presentations cannot issue or consume review tokens.
 
 ## 31 October browser and User1 recovery follow-up
 

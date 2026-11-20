@@ -1,6 +1,6 @@
 # NemoClaw Orchestrator: prototype plan
 
-Planning date: 2026-10-27 (Asia/Kolkata). Status: **Morrow prototype frontend, curated API, PostgreSQL, and protocol tests implemented; native runtime recovered on 30 October; real two-user browser chat and isolation verified**. See the repository [README](../README.md) for database startup.
+Planning date: 2026-10-27 (Asia/Kolkata). Status: **Morrow prototype frontend, curated API, PostgreSQL, and protocol tests implemented; native runtime recovered on 30 October; real two-user browser chat and isolation verified**. See the repository [README](../../README.md) for database startup.
 
 The prototype gives each demo user one independent OpenClaw instance, managed through NemoClaw/OpenShell, with a dedicated Docker named volume. A uv-managed Python service provides creation, demo authentication, and an authenticated proxy. Container replacement must retain the user's data and stable instance identity.
 

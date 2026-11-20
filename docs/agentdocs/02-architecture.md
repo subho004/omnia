@@ -104,5 +104,5 @@ db/                              # ignored PostgreSQL cluster bind-mount source
 .secrets/                        # ignored keys and provider bindings
 .certs/                          # ignored local certificates
 AGENTS.md                        # ignored local instructions
-agentdocs/                       # ignored local planning
+docs/agentdocs/                  # planning notes
 ```

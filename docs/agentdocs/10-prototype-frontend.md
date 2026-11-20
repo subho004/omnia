@@ -4,7 +4,7 @@
 
 ## Design spec before implementation
 
-Selected built-in Image Gen concept: `/Users/arkapravoghosh/.codex/generated_images/01a17b10-6c7f-7191-bb88-984f12ebbb91/exec-150a8c52-a46d-47cb-bfc7-b70564ed8169.png`, native 1505×1045. Brand corrected to Morrow at the owner’s request. Full primary offline screen, not a production image asset. No generated raster is embedded in the app; all text and controls are native HTML/CSS.
+Selected built-in Image Gen concept: `/Users/subhajithait/.codex/generated_images/01a17b10-6c7f-7191-bb88-984f12ebbb91/exec-150a8c52-a46d-47cb-bfc7-b70564ed8169.png`, native 1505×1045. Brand corrected to Morrow at the owner’s request. Full primary offline screen, not a production image asset. No generated raster is embedded in the app; all text and controls are native HTML/CSS.
 
 - Forest sidebar #1c2d25, off-white main #f7f8f5, ink #20362b, lime #b9efb6, borders #dce3da. Preserve the off-white, no gradient hero.
 - At reference dimensions: sidebar 274px, contextual right rail 309px, fluid center. Main header 87px, notice about 90px. Chat composer 30px from horizontal edges and bottom. Collapse right rail below 1180px; mobile uses a compact header and accessible sidebar drawer.
