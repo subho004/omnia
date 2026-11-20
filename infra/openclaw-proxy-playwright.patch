@@ -1,0 +1,38 @@
+--- a/dist/pw-ai-C3e3V7jh.js
++++ b/dist/pw-ai-C3e3V7jh.js
+@@ -1456,7 +1456,7 @@
+ 		cdpUrl: opts.cdpUrl,
+ 		page,
+ 		response: null,
+-		ssrfPolicy: opts.ssrfPolicy,
++		...withBrowserNavigationPolicy(opts.ssrfPolicy, { browserProxyMode: opts.browserProxyMode }),
+ 		targetId: opts.targetId
+ 	});
+ 	return page;
+@@ -1470,7 +1470,7 @@
+ 	const page = await prepareSnapshotPageViaPlaywright({
+ 		cdpUrl: opts.cdpUrl,
+ 		targetId: opts.targetId,
+-		ssrfPolicy: opts.ssrfPolicy
++		...withBrowserNavigationPolicy(opts.ssrfPolicy, { browserProxyMode: opts.browserProxyMode })
+ 	});
+ 	const ariaTimeoutMs = typeof opts.timeoutMs === "number" && Number.isFinite(opts.timeoutMs) && opts.timeoutMs > 0 ? Math.max(500, Math.min(6e4, Math.floor(opts.timeoutMs))) : void 0;
+ 	const collectAxTree = withPageScopedCdpClient({
+@@ -1498,7 +1498,7 @@
+ 	const page = await prepareSnapshotPageViaPlaywright({
+ 		cdpUrl: opts.cdpUrl,
+ 		targetId: opts.targetId,
+-		ssrfPolicy: opts.ssrfPolicy
++		...withBrowserNavigationPolicy(opts.ssrfPolicy, { browserProxyMode: opts.browserProxyMode })
+ 	});
+ 	return await withSnapshotFrameGuard({
+ 		page,
+@@ -1569,7 +1569,7 @@
+ 	const page = await prepareSnapshotPageViaPlaywright({
+ 		cdpUrl: opts.cdpUrl,
+ 		targetId: opts.targetId,
+-		ssrfPolicy: opts.ssrfPolicy
++		...withBrowserNavigationPolicy(opts.ssrfPolicy, { browserProxyMode: opts.browserProxyMode })
+ 	});
+ 	const ariaSnapshotTimeout = resolveSnapshotTimeoutMs(opts.timeoutMs);
+ 	if (opts.refsMode === "aria") {

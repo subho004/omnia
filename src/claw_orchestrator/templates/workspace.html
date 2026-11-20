@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="workspace-session" content="{{ view_session }}">
+  <title>Morrow — Workspace</title>
+  <link rel="stylesheet" href="/assets/workspace.css">
+  <script type="module" src="/assets/workspace.js"></script>
+</head>
+<body data-user-id="{{ user_id }}" data-display-name="{{ display_name }}">
+  <svg class="icon-definitions" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 15a3 3 0 0 1-3 3H7l-4 4V5a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3Z"/></symbol>
+    <symbol id="i-tasks" viewBox="0 0 24 24"><path d="m3 5 1 1 2-2m3 1h12M3 12h3m3 0h12M3 19h3m3 0h12"/></symbol>
+    <symbol id="i-link" viewBox="0 0 24 24"><path d="m10 13 4-4m-6 6-1 1a4 4 0 0 1-6-6l5-5a4 4 0 0 1 6 0m0 4 1-1a4 4 0 0 1 6 6l-5 5a4 4 0 0 1-6 0"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6 5a8 8 0 0 1 13 4M5 15a8 8 0 0 0 13 4"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="7.5"/><path d="m16 16 5 5"/></symbol>
+    <symbol id="i-browser" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><ellipse cx="12" cy="12" rx="4" ry="10"/><path d="M2 12h20"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M9 3H4v18h5m5-15 6 6-6 6m6-6H9"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="m5 5 14 14M5 19 19 5"/></symbol>
+  </defs></svg>
+  <a class="skip-link" href="#main">Skip to workspace</a>
+  <button class="nav-overlay" id="nav-overlay" aria-label="Close navigation" tabindex="-1"></button>
+  <aside class="sidebar" id="sidebar" aria-label="Workspace navigation">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">M</span><span>Morrow</span><button class="icon-button mobile-only" id="close-nav" aria-label="Close navigation"><svg><use href="#i-close"/></svg></button></div>
+    <nav class="primary-nav" aria-label="Main">
+      <a href="#chat" data-view="chat" aria-current="page"><svg><use href="#i-chat"/></svg>Chat</a>
+      <a href="#automations" data-view="automations"><svg><use href="#i-tasks"/></svg>Automations</a>
+      <a href="#connections" data-view="connections"><svg><use href="#i-link"/></svg>Connections</a>
+    </nav>
+    <section class="conversation-nav" aria-labelledby="conversations-title">
+      <div class="section-title"><h2 id="conversations-title">Conversations</h2><button id="new-chat" class="small-button" disabled aria-label="New conversation">＋</button></div>
+      <p class="nav-empty" id="session-empty">Your conversations will appear here.</p>
+      <div id="sessions" class="session-list"></div>
+      <button class="nav-more" id="more-sessions" hidden>Load more conversations</button>
+    </section>
+    <div class="account">
+      <div class="account-details"><span class="avatar" aria-hidden="true">{{ 'U1' if user_id == 'user1' else 'U2' }}</span><div><strong id="account-name">{{ display_name }}</strong><span>Demo account</span></div></div>
+      <a href="/" class="back-link" id="back-to-login"><svg><use href="#i-back"/></svg>Back to login</a>
+    </div>
+  </aside>
+  <main id="main" class="workspace" tabindex="-1">
+    <header class="workspace-header"><div class="breadcrumb"><button class="icon-button mobile-only" id="open-nav" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false"><svg><use href="#i-menu"/></svg></button><span>Workspace</span><span class="breadcrumb-slash">/</span><strong id="view-name">Chat</strong></div><button id="refresh" class="button"><svg><use href="#i-refresh"/></svg><span>Refresh</span></button></header>
+    <div class="workspace-notice" id="workspace-notice" role="status"><span class="notice-icon" aria-hidden="true">!</span><div><strong id="notice-title">Connecting to your workspace…</strong><p id="notice-detail">Checking your session and workspace.</p></div><button id="retry-runtime" class="button">Retry</button></div>
+    <div id="test-runtime-notice" class="test-runtime-notice" hidden>Test runtime — simulated API results. No model or external action is running.</div>
+    <p id="announcement" class="announcement" role="status" aria-live="polite" hidden></p>
+    <section id="chat-view" class="view chat-view" aria-label="Chat">
+      <div class="chat-scroll" id="chat-scroll">
+        <div class="chat-welcome" id="chat-welcome"><h1>What can I help with?</h1><p>Talk to your assistant and follow its work in one place.</p><div class="suggestions"><button class="button" data-suggestion="browser"><svg><use href="#i-browser"/></svg>Use the browser</button></div></div>
+        <button id="more-history" class="button history-more" hidden>Load earlier messages</button>
+        <div class="messages" id="messages" role="log" aria-label="Conversation messages" aria-live="polite"></div>
+        <div id="chat-activity" class="chat-activity" aria-label="Assistant activity"></div>
+      </div>
+      <div id="agent-status" class="agent-status" role="status" aria-live="polite" hidden></div>
+      <form class="composer" id="composer"><label class="sr-only" for="message">Message your assistant</label><textarea id="message" placeholder="Ask your assistant…" maxlength="4000" rows="2" aria-describedby="composer-help"></textarea><div class="composer-footer"><span id="composer-help">Messages are available when your workspace is online.</span><div class="composer-actions"><button class="button" id="stop-run" type="button" hidden>Stop response</button><button class="button" id="retry-send" type="button" hidden>Retry message</button><button class="button primary" id="send" type="submit" disabled>Send</button></div></div></form>
+    </section>
+    <section id="automations-view" class="view page-view automations-page automations-mode" aria-labelledby="automations-title" hidden>
+      <div class="page-heading"><div><h1 id="automations-title">Automations</h1><p>Scheduled tasks and recurring assistant runs.</p></div></div>
+      <label class="automation-search"><svg aria-hidden="true"><use href="#i-search"/></svg><span class="sr-only">Search automations</span><input id="automation-search" type="search" placeholder="Search automations" maxlength="100" autocomplete="off"></label>
+      <div class="automation-toolbar"><div class="automation-tabs" role="tablist" aria-label="Automations filter"><button role="tab" aria-selected="true" data-automation-tab="all">All</button><button role="tab" aria-selected="false" data-automation-tab="active">Active</button><button role="tab" aria-selected="false" data-automation-tab="paused">Paused</button><button role="tab" aria-selected="false" data-automation-tab="history">Run history</button></div><button id="new-automation" class="button primary" disabled><span aria-hidden="true">＋</span> New automation</button></div>
+      <div class="automation-scope" id="automation-scope" hidden></div>
+      <div id="automations-list" aria-live="polite"></div><button id="more-automations" class="button" hidden>Load more</button>
+      <section id="automation-detail" class="detail-panel" aria-label="Automation details" hidden></section>
+    </section>
+    <section id="connections-view" class="view page-view" aria-labelledby="connections-title" hidden><div class="page-heading"><div><h1 id="connections-title">Connections</h1><p>See what your assistant can use and what still needs setup.</p></div></div><section class="browser-connection-card" aria-labelledby="browser-connection-title"><h2 id="browser-connection-title">Browser</h2><div id="browser-connection"><p class="muted">Checking browser…</p></div></section><div class="feature-list" id="connections-list"></div><p class="feature-row empty">Connect your assistant to external services to unlock workflows.</p></div></section>
+    <section id="session-ended" class="session-ended" hidden aria-labelledby="session-ended-title"><h1 id="session-ended-title">Your session has changed.</h1><p>This workspace has been cleared. Return to login to continue with the current account.</p><a href="/" class="button primary">Return to login</a></section>
+    <noscript><p class="no-script">JavaScript is needed for this workspace. <a href="/">Return to login</a>.</p></noscript>
+  </main>
+  <dialog id="automation-editor" class="automation-dialog" aria-labelledby="automation-editor-title">
+    <form id="automation-form"><div class="dialog-heading"><h2 id="automation-editor-title">New automation</h2><button type="button" class="icon-button" id="close-automation-editor" aria-label="Close automation editor">×</button></div>
+      <label>Name<input id="automation-name" required maxlength="100" placeholder="Morning brief" autocomplete="off"></label>
+      <label>Instructions<textarea id="automation-message" required maxlength="4000" rows="4" placeholder="What should your assistant do?"></textarea></label>
+      <label for="automation-schedule">Schedule</label><select id="automation-schedule"><option value="every">Every interval</option><option value="cron">Cron expression</option><option value="at">Once, at a specific time</option></select>
+      <div id="automation-every-fields"><label>Every (minutes)<input id="automation-minutes" type="number" min="1" max="525600" value="60"></label></div>
+      <div id="automation-cron-fields" hidden><label>Cron expression<input id="automation-expression" placeholder="0 9 * * *" value="0 9 * * *" maxlength="100"></label><label>Time zone<input id="automation-timezone" placeholder="Asia/Kolkata" maxlength="100"></label><p class="form-help">Minute, hour, day, month, weekday. The time zone applies to this schedule.</p></div>
+      <div id="automation-at-fields" hidden><label>Date and time<input id="automation-at" type="datetime-local"></label><p class="form-help" id="automation-local-zone"></p></div>
+      <label class="automation-check"><input id="automation-enabled" type="checkbox"> Enable after saving</label><p class="form-help">Results appear automatically in Recent activity.</p>
+      <p id="automation-form-error" class="form-error" role="alert" hidden></p><div class="dialog-actions"><button type="button" id="cancel-automation-editor" class="button">Cancel</button><button type="submit" id="save-automation" class="button primary">Save automation</button></div>
+    </form>
+  </dialog>
+  <dialog id="automation-confirm" class="automation-dialog" aria-labelledby="automation-confirm-title"><div class="dialog-heading"><h2 id="automation-confirm-title"></h2></div><p id="automation-confirm-detail"></p><div class="dialog-actions"><button id="cancel-automation-action" class="button">Cancel</button><button id="confirm-automation-action" class="button primary">Run now</button></div></dialog>
+  <aside class="context-rail" aria-label="Workspace status"><section><h2>Workspace</h2><p class="runtime-indicator"><span class="status-dot" id="runtime-dot"></span><span id="runtime-label">Connecting</span></p></section><section><h2>Recent activity</h2><p id="activity-summary">Activity will appear when your workspace reconnects.</p><div id="recent-activity"></div></section><section><h2>Connections</h2><div class="connection-row"><svg><use href="#i-browser"/></svg><span>Browser</span><small id="browser-state">Checking</small></div></section></aside>
+</body>
+</html>

@@ -1,0 +1,41 @@
+--- a/schemas/network-policy.schema.json
++++ b/schemas/network-policy.schema.json
+@@ -89,7 +89,8 @@
+           "type": "string",
+           "enum": [
+             "full",
+-            "read-only"
++            "read-only",
++            "read-write"
+           ]
+         },
+         "json_rpc": {
+@@ -132,6 +133,28 @@
+         }
+       },
+       "allOf": [
++        {
++          "if": {
++            "properties": {
++              "access": {
++                "const": "read-write"
++              }
++            },
++            "required": [
++              "access"
++            ]
++          },
++          "then": {
++            "properties": {
++              "protocol": {
++                "const": "rest"
++              }
++            },
++            "required": [
++              "protocol"
++            ]
++          }
++        },
+         {
+           "oneOf": [
+             {

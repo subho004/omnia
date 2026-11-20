@@ -1,0 +1,35 @@
+name: claw-orchestrator
+
+services:
+  db:
+    image: postgres:18
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-claw_orchestrator}
+      POSTGRES_USER: ${POSTGRES_USER:-claw_orchestrator}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env before starting PostgreSQL}
+      POSTGRES_APP_PASSWORD: ${POSTGRES_APP_PASSWORD:?Run uv run scripts/setup_local.py to generate application credentials}
+      PGDATA: /var/lib/postgresql/18/docker
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - type: bind
+        source: ./db
+        target: /var/lib/postgresql
+      - type: bind
+        source: ./infra/postgres/init-app.sql
+        target: /docker-entrypoint-initdb.d/10-app.sql
+        read_only: true
+    networks:
+      - control_plane
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\" && PGPASSWORD=\"$$POSTGRES_APP_PASSWORD\" psql -h 127.0.0.1 -U claw_api -d \"$$POSTGRES_DB\" -Atqc 'SELECT 1' > /dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+    stop_grace_period: 30s
+
+networks:
+  control_plane:
+    driver: bridge

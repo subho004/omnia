@@ -1,0 +1,18 @@
+--- a/scripts/nemoclaw-start.sh
++++ b/scripts/nemoclaw-start.sh
+@@ -1661,7 +1661,14 @@
+   // external image carries a different baked default.
+   gateway.port = gatewayPort;
+   const auth = gateway.auth && typeof gateway.auth === "object" ? gateway.auth : (gateway.auth = {});
+-  auth.token = tokenUrlSafe(32);
++  // The orchestrator uses authenticated private proxy ingress. OpenClaw rejects
++  // a token combined with trusted-proxy mode; retain the exact proxy policy.
++  // Other native authentication modes keep the upstream startup behavior.
++  if (auth.mode === "trusted-proxy") {
++    delete auth.token;
++  } else {
++    auth.token = tokenUrlSafe(32);
++  }
+   // OpenClaw 2026.9.1 rejects the legacy timestamp key. Scrub it defensively
+   // while retaining supported metadata such as `lastTouchedVersion`.
+   const meta = cfg.meta;

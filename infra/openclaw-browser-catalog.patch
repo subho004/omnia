@@ -1,0 +1,11 @@
+--- a/local-model-lean-B52ThaBJ.js
++++ b/local-model-lean-B52ThaBJ.js
+@@ -474,7 +474,7 @@
+ function isDirectVisibleCatalogTool(tool, directToolNames) {
+ 	const classified = classifyTool(tool);
+ 	const hideCoreCodingSurface = (process.env.NEMOCLAW_UPSTREAM_PROVIDER ?? "").trim() === "llama-cpp-local";
+-	return classified.source === "openclaw" && (directToolNames.has(tool.name) || !hideCoreCodingSurface && isCoreCodingSurfaceToolName(tool.name) && classified.sourceName === "core");
++	return classified.source === "openclaw" && ((tool.name === "browser" && classified.sourceName === "browser") || directToolNames.has(tool.name) || !hideCoreCodingSurface && isCoreCodingSurfaceToolName(tool.name) && classified.sourceName === "core");
+ }
+ function registerHeadlessToolSearchCatalog(params) {
+ 	const { catalogRef, tools, hookContext } = params;

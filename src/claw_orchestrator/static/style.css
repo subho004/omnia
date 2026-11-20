@@ -1,0 +1,27 @@
+:root { color-scheme: dark; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; color: #eeefe8; background: #111713; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100svh; background: radial-gradient(ellipse at 50% 0%, #26352b 0, transparent 58%); }
+.shell { max-width: 980px; margin: auto; padding: 32px 24px; }
+header { display: flex; gap: 12px; align-items: center; font-size: 14px; font-weight: 600; }
+.mark { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid #8db494; border-radius: 9px; color: #b9efb6; }
+.badge { margin-left: auto; font-size: 10px; letter-spacing: .12em; color: #a2b3a5; }
+.card { max-width: 460px; margin: 90px auto 36px; padding: 36px; border: 1px solid #3b493f; border-radius: 20px; background: #19221c; box-shadow: 0 28px 100px #0003; }
+.eyebrow { color: #a3c8a6; font-size: 10px; font-weight: 700; letter-spacing: .18em; margin: 0 0 18px; }
+h1 { font-size: clamp(28px, 5vw, 36px); line-height: 1.15; letter-spacing: -.035em; margin: 0 0 14px; }
+.intro { color: #b4bfb5; font-size: 15px; line-height: 1.6; margin: 0 0 28px; }
+.actions { display: grid; gap: 10px; }
+button { cursor: pointer; width: 100%; padding: 14px 18px; font: inherit; font-size: 14px; font-weight: 600; border: 1px solid #46594a; border-radius: 10px; background: #243329; color: #eff6ee; transition: background .15s; }
+button:hover { background: #324737; }
+button:focus-visible { outline: 3px solid #b9efb6; outline-offset: 3px; }
+button.primary { background: #b9efb6; border-color: #b9efb6; color: #15341d; }
+button.primary:hover { background: #cdf8c9; }
+button.primary span { float: right; }
+button.quiet { border-color: transparent; background: transparent; color: #b4bfb5; }
+button:disabled { cursor: progress; opacity: .6; }
+.status { color: #c5dfc6; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+.status:empty { display: none; }
+.notice { padding: 14px; margin-top: 24px; background: #242b20; border: 1px solid #535f3d; border-radius: 9px; font-size: 12px; color: #cbd3b7; line-height: 1.6; }
+.notice p { margin: 5px 0 0; }
+.footnote { border-top: 1px solid #344037; padding-top: 20px; margin: 24px 0 0; color: #87988a; font-size: 11px; line-height: 1.5; }
+footer { text-align: center; font-size: 11px; color: #829487; }
+@media (max-width: 540px) { .shell { padding: 22px 18px; } .card { margin-top: 54px; padding: 26px; } .badge { font-size: 8px; } header { font-size: 12px; } }

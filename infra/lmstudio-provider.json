@@ -1,0 +1,54 @@
+{
+  "id": "morrow-lmstudio-local-v1",
+  "display_name": "Morrow local inference",
+  "description": "Authenticated local LM Studio on the native managed host bridge",
+  "category": "inference",
+  "credentials": [
+    {
+      "name": "api_key",
+      "env_vars": [
+        "LMSTUDIO_API_KEY"
+      ],
+      "required": true,
+      "auth_style": "bearer",
+      "header_name": "authorization",
+      "query_param": ""
+    }
+  ],
+  "endpoints": [
+    {
+      "host": "host.openshell.internal",
+      "port": 1234,
+      "protocol": "rest",
+      "enforcement": "enforce",
+      "allowed_ips": [
+        "10.0.0.0/8",
+        "172.16.0.0/12",
+        "192.168.0.0/16",
+        "fc00::/7"
+      ],
+      "rules": [
+        {
+          "allow": {
+            "method": "GET",
+            "path": "/v1/models"
+          }
+        },
+        {
+          "allow": {
+            "method": "POST",
+            "path": "/v1/chat/completions"
+          }
+        }
+      ]
+    }
+  ],
+  "binaries": [
+    "/usr/local/bin/node",
+    "/usr/bin/node",
+    "/usr/bin/python3",
+    "/usr/local/bin/curl",
+    "/usr/bin/curl"
+  ],
+  "inference_capable": true
+}

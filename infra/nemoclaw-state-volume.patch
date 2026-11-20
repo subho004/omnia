@@ -1,0 +1,32 @@
+--- a/src/lib/onboard/managed-startup/state-roots.ts
++++ b/src/lib/onboard/managed-startup/state-roots.ts
+@@ -53,12 +53,28 @@
+  * Removal condition: agent packages/manifests can declare validated managed
+  * state roots without adding agent IDs or production logic to NemoClaw core.
+  */
++// Claw Orchestrator adapter: short managed sandbox names bind to full instance UUIDs.
++// Missing/mismatched bindings fail closed, including during rebuild and cleanup.
++function orchestratorOpenClawVolume(sandboxName: string): string {
++  if (!/^co-[0-9a-f]{16}$/u.test(sandboxName)) {
++    return `${OPENCLAW_STATE_VOLUME_NAME_PREFIX}-${sandboxName}`;
++  }
++  const id = process.env.CLAW_ORCHESTRATOR_INSTANCE_ID ?? "";
++  if (
++    !/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/u.test(id) ||
++    sandboxName !== `co-${id.replaceAll("-", "").slice(0, 16)}`
++  ) {
++    throw new Error("Claw Orchestrator instance/volume binding is missing or mismatched.");
++  }
++  return `openclaw-data-${id}`;
++}
++
+ const MANAGED_AGENT_STATE_ROOTS = Object.freeze({
+   openclaw: Object.freeze([
+     Object.freeze({
+       mountTarget: MANAGED_OPENCLAW_STATE_ROOT,
+       resourceIdentity: (sandboxName: string) =>
+-        `${OPENCLAW_STATE_VOLUME_NAME_PREFIX}-${sandboxName}`,
++        orchestratorOpenClawVolume(sandboxName),
+       ownershipLabels: (sandboxName: string, mountTarget: string) =>
+         Object.freeze({
+           "io.nvidia.nemoclaw.openclaw-state.managed": "true",

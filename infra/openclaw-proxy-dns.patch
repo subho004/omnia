@@ -1,0 +1,12 @@
+--- a/dist/chrome-CtUCaDWQ.js
++++ b/dist/chrome-CtUCaDWQ.js
+@@ -246,6 +246,9 @@
+ 	}
+ 	if (opts.browserProxyMode === "explicit-browser-proxy" && !isPrivateNetworkAllowedByPolicy(opts.ssrfPolicy)) throw new InvalidBrowserNavigationUrlError("Navigation blocked: strict browser SSRF policy cannot be enforced while this browser profile is proxy-routed");
+ 	if (opts.ssrfPolicy && opts.ssrfPolicy.dangerouslyAllowPrivateNetwork === false && !isPrivateNetworkAllowedByPolicy(opts.ssrfPolicy) && !isIpLiteralHostname(parsed.hostname) && !isExplicitlyAllowedBrowserHostname(parsed.hostname, opts.ssrfPolicy)) throw new InvalidBrowserNavigationUrlError("Navigation blocked: strict browser SSRF policy requires an IP-literal URL because browser DNS rebinding protections are unavailable for hostname-based navigation");
++	// Explicit proxy owns DNS and actual connection validation in the managed sandbox.
++	// Strict policy and direct browser connections retain the native DNS checks.
++	if (opts.browserProxyMode === "explicit-browser-proxy" && opts.ssrfPolicy?.dangerouslyAllowPrivateNetwork === true) return;
+ 	await resolvePinnedHostnameWithPolicy(parsed.hostname, {
+ 		lookupFn: opts.lookupFn,
+ 		policy: opts.ssrfPolicy

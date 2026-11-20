@@ -1,0 +1,38 @@
+--- a/dist/routes-g8jdcRKn.js
++++ b/dist/routes-g8jdcRKn.js
+@@ -2714,7 +2714,7 @@
+ 					if (pwModule) observedBrowserState = await pwModule.getObservedBrowserStateViaPlaywright({
+ 						cdpUrl: profileCtx.profile.cdpUrl,
+ 						targetId: tab.targetId,
+-						ssrfPolicy: ctx.state().resolved.ssrfPolicy
++						...ssrfPolicyOpts
+ 					}).catch(() => void 0);
+ 					if (hasPendingDialogs(observedBrowserState)) return res.json({
+ 						ok: true,
+@@ -2754,7 +2754,7 @@
+ 							selector: plan.selectorValue,
+ 							frameSelector: plan.frameSelectorValue,
+ 							refsMode: plan.refsMode,
+-							ssrfPolicy: ctx.state().resolved.ssrfPolicy,
++							...ssrfPolicyOpts,
+ 							urls: plan.urls,
+ 							timeoutMs: plan.timeoutMs,
+ 							maxChars: plan.resolvedMaxChars,
+@@ -2794,7 +2794,7 @@
+ 						}) : pw ? await pw.snapshotRoleViaPlaywright(roleSnapshotArgs) : await cdpRoleSnapshot() : pw ? await pw.snapshotAiViaPlaywright({
+ 							cdpUrl: profileCtx.profile.cdpUrl,
+ 							targetId: tab.targetId,
+-							ssrfPolicy: ctx.state().resolved.ssrfPolicy,
++							...ssrfPolicyOpts,
+ 							urls: plan.urls,
+ 							timeoutMs: plan.timeoutMs,
+ 							...typeof plan.resolvedMaxChars === "number" ? { maxChars: plan.resolvedMaxChars } : {},
+@@ -2875,7 +2875,7 @@
+ 								targetId: tab.targetId,
+ 								limit: plan.limit,
+ 								timeoutMs: plan.timeoutMs,
+-								ssrfPolicy: ctx.state().resolved.ssrfPolicy
++								...ssrfPolicyOpts
+ 							});
+ 						});
+ 					})() : snapshotAria({

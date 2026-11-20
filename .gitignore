@@ -1,0 +1,22 @@
+# Python environments and caches.
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local credentials and orchestrator state.
+/db/
+.env
+.env.*
+!.env.example
+.state/
+.secrets/
+.certs/
+
+# Local editor and OS files.
+.DS_Store
+.idea/
+.vscode/

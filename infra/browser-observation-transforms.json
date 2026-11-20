@@ -1,0 +1,18 @@
+[
+  [
+    "\t\t\treturn formatBrowserExternalToolResult({\n\t\t\t\tkind: \"tabs\",\n\t\t\t\tpayload: stripBrowserOpenInternalMetadata(opened)\n\t\t\t});",
+    "\t\t\treturn await appendNavigatedPageState({\n\t\t\t\tresult: formatBrowserExternalToolResult({\n\t\t\t\t\tkind: \"tabs\",\n\t\t\t\t\tpayload: stripBrowserOpenInternalMetadata(opened)\n\t\t\t\t}),\n\t\t\t\ttargetId: readStringValue(asNullableRecord(opened)?.targetId),\n\t\t\t\tbaseUrl, profile, proxyRequest, signal\n\t\t\t});"
+  ],
+  [
+    "\t\t\t\ttargetId: params.targetId,\n\t\t\t\tmode: \"efficient\"",
+    "\t\t\t\ttargetId: params.targetId,\n\t\t\t\trefs: \"aria\",\n\t\t\t\tmaxChars: 12000"
+  ],
+  [
+    "\t\t\tconst result = proxyRequest ? await proxyRequest({\n\t\t\t\tmethod: \"POST\",\n\t\t\t\tpath: \"/navigate\",\n\t\t\t\tprofile,\n\t\t\t\tbody: {\n\t\t\t\t\turl: targetUrl,\n\t\t\t\t\ttargetId,\n\t\t\t\t\ttimeoutMs\n\t\t\t\t},\n\t\t\t\ttimeoutMs: timeoutMs + BROWSER_ACTION_TRANSPORT_SLACK_MS\n\t\t\t}) : await browserNavigate(baseUrl, {\n\t\t\t\turl: targetUrl,\n\t\t\t\ttargetId,\n\t\t\t\ttimeoutMs,\n\t\t\t\tprofile,\n\t\t\t\tsignal\n\t\t\t});\n",
+    "\t\t\tlet result;\n\t\t\ttry {\n\t\t\t\tresult = proxyRequest ? await proxyRequest({\n\t\t\t\tmethod: \"POST\",\n\t\t\t\tpath: \"/navigate\",\n\t\t\t\tprofile,\n\t\t\t\tbody: {\n\t\t\t\t\turl: targetUrl,\n\t\t\t\t\ttargetId,\n\t\t\t\t\ttimeoutMs\n\t\t\t\t},\n\t\t\t\ttimeoutMs: timeoutMs + BROWSER_ACTION_TRANSPORT_SLACK_MS\n\t\t\t}) : await browserNavigate(baseUrl, {\n\t\t\t\turl: targetUrl,\n\t\t\t\ttargetId,\n\t\t\t\ttimeoutMs,\n\t\t\t\tprofile,\n\t\t\t\tsignal\n\t\t\t});\n\t\t\t} catch (err) {\n\t\t\t\tsignal?.throwIfAborted();\n\t\t\t\tif (err instanceof Error && err.name === \"AbortError\") throw err;\n\t\t\t\tconst errorText = formatErrorMessage(err);\n\t\t\t\tif (!errorText.includes(\"net::ERR_HTTP_RESPONSE_CODE_FAILURE\")) throw err;\n\t\t\t\treturn await appendNavigatedPageState({\n\t\t\t\t\tresult: {\n\t\t\t\t\t\t...formatBrowserExternalToolResult({\n\t\t\t\t\t\t\tkind: \"act\",\n\t\t\t\t\t\t\tpayload: { ok: false, requestedUrl: targetUrl, error: errorText }\n\t\t\t\t\t\t}),\n\t\t\t\t\t\tisError: true\n\t\t\t\t\t},\n\t\t\t\t\ttargetId, baseUrl, profile, proxyRequest, signal\n\t\t\t\t});\n\t\t\t}\n"
+  ],
+  [
+    "\treturn {\n\t\tcontent: [...params.result.content, ...snapshot.content],",
+    "\treturn {\n\t\t...params.result,\n\t\tcontent: [...params.result.content, ...snapshot.content],"
+  ]
+]
